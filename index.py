@@ -1,6 +1,6 @@
 from time import sleep
 
-
+# Inicio da estrutura de manipulação de arquivos
 def salvar_dados(ganhos, gastos, categoria):
     with open("dados_financeiros.txt", "a") as arquivo:
         arquivo.write(f"Ganhos: {ganhos}, Gastos: {gastos}, Categoria: {categoria}\n")
@@ -19,7 +19,15 @@ def ler_dados():
         print("Arquivo de dados não encontrado. Será criado um novo arquivo.")
     return saldo_total
 
+# Validação dos inputs
+def input_valido(mensagem: object) -> object:
+    while True:
+        try:
+            return int(input(mensagem))
+        except ValueError:
+            print("Por favor, insira um número válido.")
 
+# Menu Inicial
 def menu_principal() -> object:
     while True:
         print("\nMenu Principal")
@@ -49,15 +57,7 @@ def menu_principal() -> object:
             print("\n\033[31mDigite uma opção válida, tente novamente.\033[m")
         sleep(1)
 
-
-def criar_categoria():
-    nova_categoria = input("Digite o nome da nova categoria de gasto: ")
-    limite = float(input("Defina um limite de gastos para esta categoria: "))
-    with open("categorias.txt", "a") as arquivo:
-        arquivo.write(f"{nova_categoria}: {limite}\n")
-    print("Categoria criada com sucesso.")
-
-
+# Menu da funcionalidade 01 - Funcionalidade: Definir categorias de gasto
 def menu_definir_categorias():
     while True:
         print("\nMenu de Categorias")
@@ -82,19 +82,49 @@ def menu_definir_categorias():
         else:
             print("Opção inválida, tente novamente.")
 
-
-def ler_categorias() -> object:
-    categorias = {}
+# Função: Definir orçamento mensal total
+def definir_orcamento():
     try:
-        with open("categorias.txt", "rt") as arquivo:
-            for linha in arquivo:
-                nome, _ = linha.strip().split(':')
-                categorias[len(categorias) + 1] = nome
+        orcamento = float(input("Digite o valor do orçamento total mensal: "))
+        with open("orçamento.txt", "w") as arquivo:
+            arquivo.write(str(orcamento))
+        print("Orçamento definido com sucesso.")
+    except ValueError:
+        print("Por favor, insira um número válido.")
+
+# Função: Editar orçamento mensal total 
+def editar_orcamento():
+    try:
+        with open("orçamento.txt", "r") as arquivo:
+            orcamento_atual = arquivo.read()
+        print(f"Orçamento atual: {orcamento_atual} ")
+
+        novo_orcamento = float(input("Digite o novo valor do orçamento: "))
+        with open("orçamento.txt", "w") as arquivo:
+            arquivo.write(str(novo_orcamento))
+        print("Orçamento atualizado com sucesso.")
     except FileNotFoundError:
-        print("Arquivo de categorias não encontrado.")
-    return categorias
+        print("Orçamento não definido. Defina um orçamento primeiro.")
+    except ValueError:
+        print("Por favor, insira um número válido.")
+
+# Função: Criar nova categoria de gasto
+def criar_categoria():
+    nova_categoria = input("Digite o nome da nova categoria de gasto: ")
+    limite = float(input("Defina um limite de gastos para esta categoria: "))
+    with open("categorias.txt", "a") as arquivo:
+        arquivo.write(f"{nova_categoria}: {limite}\n")
+    print("Categoria criada com sucesso.")
 
 
+# Função: Ediatar categoria de gastos
+def editar_categoria():
+    categoria_a_editar = input("Digite o nome da categoria que deseja editar: ")
+    novo_nome = input("Digite o novo nome da categoria: ")
+    novo_limite = float(input("Defina o novo limite de gastos para esta categoria: "))
+    print("Categoria editada com sucesso.")
+
+# Menu da funcionalidade 02 - Funcionalidade: Inserir novo gasto
 def menu_inserir_gasto():
     while True:
         categorias = ler_categorias()
@@ -124,60 +154,19 @@ def menu_inserir_gasto():
         else:
             print("Opção inválida, tente novamente.")
 
-
-def editar_categoria():
-    categoria_a_editar = input("Digite o nome da categoria que deseja editar: ")
-    novo_nome = input("Digite o novo nome da categoria: ")
-    novo_limite = float(input("Defina o novo limite de gastos para esta categoria: "))
-    print("Categoria editada com sucesso.")
-
-
-def relatorio_por_categoria():
-    categoria_especifica = input("Digite a categoria para a qual deseja o relatório: ")
+# Função: Mostrar categorias de gastos definidas pelo usuário
+def ler_categorias() -> object:
+    categorias = {}
     try:
-        with open("dados_financeiros.txt", "r") as arquivo:
+        with open("categorias.txt", "rt") as arquivo:
             for linha in arquivo:
-                if categoria_especifica in linha:
-                    print(linha.strip())
+                nome, _ = linha.strip().split(':')
+                categorias[len(categorias) + 1] = nome
     except FileNotFoundError:
-        print("Nenhum dado de gasto encontrado.")
+        print("Arquivo de categorias não encontrado.")
+    return categorias
 
-
-def relatorio_geral():
-    try:
-        with open("dados_financeiros.txt", "r") as arquivo:
-            for linha in arquivo:
-                print(linha.strip())
-    except FileNotFoundError:
-        print("Nenhum dado de gasto encontrado.")
-
-
-def definir_orcamento():
-    try:
-        orcamento = float(input("Digite o valor do orçamento total mensal: "))
-        with open("orçamento.txt", "w") as arquivo:
-            arquivo.write(str(orcamento))
-        print("Orçamento definido com sucesso.")
-    except ValueError:
-        print("Por favor, insira um número válido.")
-
-
-def editar_orcamento():
-    try:
-        with open("orçamento.txt", "r") as arquivo:
-            orcamento_atual = arquivo.read()
-        print(f"Orçamento atual: {orcamento_atual} ")
-
-        novo_orcamento = float(input("Digite o novo valor do orçamento: "))
-        with open("orçamento.txt", "w") as arquivo:
-            arquivo.write(str(novo_orcamento))
-        print("Orçamento atualizado com sucesso.")
-    except FileNotFoundError:
-        print("Orçamento não definido. Defina um orçamento primeiro.")
-    except ValueError:
-        print("Por favor, insira um número válido.")
-
-
+# Menu da funcionalidade 03 - Funcionalidade: Relatório de gastos
 def menu_relatorio_gastos():
     while True:
         print("\nRelatório de Gastos")
@@ -196,34 +185,27 @@ def menu_relatorio_gastos():
         else:
             print("Opção inválida, tente novamente.")
 
-
-def exibir_conteudo_arquivo():
+# Função: Exibir relatório de gastos a partir da categoria selecionada
+def relatorio_por_categoria():
+    categoria_especifica = input("Digite a categoria para a qual deseja o relatório: ")
     try:
         with open("dados_financeiros.txt", "r") as arquivo:
-            conteudo = arquivo.read()
-            print(conteudo)
+            for linha in arquivo:
+                if categoria_especifica in linha:
+                    print(linha.strip())
     except FileNotFoundError:
-        print("Arquivo de dados não encontrado.")
+        print("Nenhum dado de gasto encontrado.")
 
-
-def input_valido(mensagem: object) -> object:
-    while True:
-        try:
-            return int(input(mensagem))
-        except ValueError:
-            print("Por favor, insira um número válido.")
-
-
-def ler_orcamento():
+# Função: Exibir relatório de gastos de todas as categorias
+def relatorio_geral():
     try:
-        with open("orçamento.txt", "r") as arquivo:
-            orçamento = float(arquivo.read())
-            return orçamento
+        with open("dados_financeiros.txt", "r") as arquivo:
+            for linha in arquivo:
+                print(linha.strip())
     except FileNotFoundError:
-        print("Arquivo de orçamento não encontrado. Defina um orçamento primeiro.")
-        return 0
+        print("Nenhum dado de gasto encontrado.")
 
-
+# Menu da funcionalidade 04 - Funcionalidade: Insights Financeiros
 def menu_insights_financeiros():
     saldo_total = ler_dados()
     orçamento = ler_orcamento()
@@ -234,5 +216,22 @@ def menu_insights_financeiros():
         print(
             "Ótimo! Você está dentro do orçamento. Já pensou em investir seu rico dinheirinho para render ainda mais?")
 
+# Função: Ler e mostrar relatório de orçamento do usuário
+def ler_orcamento():
+    try:
+        with open("orçamento.txt", "r") as arquivo:
+            orçamento = float(arquivo.read())
+            return orçamento
+    except FileNotFoundError:
+        print("Arquivo de orçamento não encontrado. Defina um orçamento primeiro.")
+        return 0
 
+# Função para exibir todos os dados
+def exibir_conteudo_arquivo():
+    try:
+        with open("dados_financeiros.txt", "r") as arquivo:
+            conteudo = arquivo.read()
+            print(conteudo)
+    except FileNotFoundError:
+        print("Arquivo de dados não encontrado.")
 menu_principal()
