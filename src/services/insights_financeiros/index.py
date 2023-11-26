@@ -1,7 +1,6 @@
 from time import sleep
-from utils.validacao_input import input_valido
 from utils.limpar_console import limparConsole
-from main import ler_dados
+from data.ler_dados import ler_dados
 
 # Menu da funcionalidade 04 - Funcionalidade: Insights Financeiros
 def menu_insights_financeiros():

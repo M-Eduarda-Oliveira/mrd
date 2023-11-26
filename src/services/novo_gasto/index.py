@@ -1,7 +1,7 @@
-from time import sleep
+# from time import sleep
 from utils.validacao_input import input_valido
 from utils.limpar_console import limparConsole
-from main import salvar_dados
+from data.salvar_dados import salvar_dados
 
 # Menu da funcionalidade 02 - Funcionalidade: Inserir novo gasto
 def menu_inserir_gasto():
