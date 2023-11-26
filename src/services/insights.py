@@ -1,4 +1,3 @@
-from time import sleep
 from utils.limpar_console import limparConsole
 from data.ler_dados import ler_dados
 

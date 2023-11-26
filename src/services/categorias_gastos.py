@@ -1,6 +1,7 @@
 from time import sleep
 from utils.validacao_input import input_valido
 from utils.limpar_console import limparConsole
+from data import registros_categorias
 # Menu da funcionalidade 01 - Funcionalidade: Definir categorias de gasto
 def menu_definir_categorias():
     while True:
@@ -20,6 +21,7 @@ def menu_definir_categorias():
             limparConsole()
             editar_categoria()
         elif escolha == 5:
+            limparConsole()
             break
         else:
             print("Opção inválida, tente novamente.")
@@ -74,9 +76,20 @@ def criar_categoria():
     limparConsole()
 
 
-# Função: Editar categoria de gastos
+# Função: Editar categoria de gastos   
 def editar_categoria():
+    try:
+        with open("categorias.txt", "r") as arquivo:
+                for linha in arquivo:
+                    print("As categorias existentes são: \n")
+                    print(linha)
+                    # print("O limite é " + linha.strip())
+    except FileNotFoundError:
+        print("Nenhum dado de gasto encontrado.")
+        sleep(1)
+        menu_definir_categorias()
     categoria_a_editar = input("Digite o nome da categoria que deseja editar: ")
     novo_nome = input("Digite o novo nome da categoria: ")
     novo_limite = float(input("Defina o novo limite de gastos para esta categoria: "))
     print("Categoria editada com sucesso.")
+    limparConsole()
