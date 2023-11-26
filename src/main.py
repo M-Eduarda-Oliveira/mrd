@@ -3,10 +3,10 @@ from time import sleep
 from data.exibir_dados import exibir_conteudo_arquivo
 from utils.validacao_input import input_valido
 from utils.limpar_console import limparConsole
-from services.categorias_e_limites.index import menu_definir_categorias
-from services.novo_gasto.index import menu_inserir_gasto
-from services.relatorio_gastos.index import menu_relatorio_gastos
-from services.insights_financeiros.index import menu_insights_financeiros
+from src.services.categorias_gastos import menu_definir_categorias
+from src.services.inserir_gasto import menu_inserir_gasto
+from src.services.relatorio import menu_relatorio_gastos
+from src.services.insights import menu_insights_financeiros
 
 inicio = input("Podemos Iniciar o Programa?\nDigite 'S' para Sim, ou 'N' para Não: ").upper()
 # limparConsole()
