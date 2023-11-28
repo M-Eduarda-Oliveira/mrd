@@ -1,4 +1,4 @@
-registrosCategorias = {
-    # Valor geral i[0]
-    "Orçamento geral": [0],
+registrosGerais = {
+    'orcamentoMensal': 0,
+    'categorias' : []
 }
