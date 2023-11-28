@@ -1,11 +1,13 @@
 from time import sleep
 from utils.validacao_input import input_valido
 from utils.limpar_console import limparConsole
-from data import registros_categorias
+from data.registros_categorias import registrosGerais
+from utils.mensagem import layoutMensagem
 # Menu da funcionalidade 01 - Funcionalidade: Definir categorias de gasto
 def menu_definir_categorias():
     while True:
-        print('''Menu de Categorias\n 1. Definir Orçamento Total Mensal\n 2. Editar Orçamento Total Mensal\n 3. Criar Categoria de Gastos\n 4. Editar Categoria de Gastos\n 5. Voltar ao Menu Principal''')
+        layoutMensagem("Olá, seja bem-vindo a nossa funcionalidade de definição de categorias de despesas e seus limites de gasto!\nNesta funcionalidade você poderá definir e editar essas categorias de forma altamente personalizada \nse adequando assim a sua forma de gerir o seu rico dinheirinho.\nAproveite ;)")
+        print("Menu de Categorias\n 1. Definir Orçamento Total Mensal\n 2. Editar Orçamento Total Mensal\n 3. Criar Categorias de Despesas\n 4. Editar Categorias de Despesas\n 5. Deletar categoria de gasto \n 6. Visualizar orçamento total e categorias \n 7. Voltar ao Menu Principal")
         escolha = input_valido("Escolha uma opção: ")
 
         if escolha == 1:
@@ -22,6 +24,12 @@ def menu_definir_categorias():
             editar_categoria()
         elif escolha == 5:
             limparConsole()
+            deletarCategoria()
+        elif escolha == 6:
+            limparConsole()
+            visualizarDados()
+        elif escolha == 7:
+            limparConsole()
             break
         else:
             print("Opção inválida, tente novamente.")
@@ -31,8 +39,7 @@ def menu_definir_categorias():
 def definir_orcamento():
     try:
         orcamento = float(input("Digite o valor do orçamento total mensal: "))
-        with open("orçamento.txt", "w") as arquivo:
-            arquivo.write(str(orcamento))
+        registrosGerais['orcamentoMensal'] = orcamento
         print("Orçamento definido com sucesso.")
         sleep(1)
         limparConsole()
@@ -45,13 +52,14 @@ def definir_orcamento():
 # Função: Editar orçamento mensal total 
 def editar_orcamento():
     try:
-        with open("orçamento.txt", "r") as arquivo:
-            orcamento_atual = arquivo.read()
-        print(f"Orçamento atual: {orcamento_atual} ")
-
+        # with open("orçamento.txt", "r") as arquivo:
+        #     orcamento_atual = arquivo.read()
+        # print(f"Orçamento atual: {orcamento_atual} ")
+        layoutMensagem(f"O seu orçamento anterior estava definido no valor de {registrosGerais['orcamentoMensal']}")
         novo_orcamento = float(input("Digite o novo valor do orçamento: "))
-        with open("orçamento.txt", "w") as arquivo:
-            arquivo.write(str(novo_orcamento))
+        registrosGerais['orcamentoMensal'] = novo_orcamento
+        # with open("orçamento.txt", "w") as arquivo:
+        #     arquivo.write(str(novo_orcamento))
         print("Orçamento atualizado com sucesso.")
         sleep(1)
         limparConsole()
@@ -67,29 +75,88 @@ def editar_orcamento():
 
 # Função: Criar nova categoria de gasto
 def criar_categoria():
-    nova_categoria = input("Digite o nome da nova categoria de gasto: ")
-    limite = float(input("Defina um limite de gastos para esta categoria: "))
-    with open("categorias.txt", "a") as arquivo:
-        arquivo.write(f"{nova_categoria}: {limite}\n")
+    nova_categoria = input("Digite o nome da nova categoria de despesa que você deseja criar: ")
+    limite = float(input("Defina um limite para gastos com esta categoria: "))
+    gasto = 0
+    # with open("categorias.txt", "a") as arquivo:
+    #     arquivo.write(f"{nova_categoria}: {limite}\n")
+
+    # pode ser feito com array ou abjeto 
+    registrosGerais['categorias'].append({'nome':nova_categoria, 'limite': limite, 'gasto': gasto})
     print("Categoria criada com sucesso.")
     sleep(1)
     limparConsole()
-
+    continuar = input("Deseja continuar e criar mais categorias? Você pode responder com S para sim e N para não ;)\n").upper()
+    while (continuar == 'S'):
+        limparConsole()
+        print('============================================================')
+        print("As categorias que você criou até agora são:")
+        for (categoria) in registrosGerais['categorias']:
+            index = registrosGerais['categorias'].index(categoria)
+            print(f"{index}.{categoria['nome']} com limite de {categoria['limite']} reais.")
+        print('============================================================')
+        criar_categoria()
+    else:
+        menu_definir_categorias()
 
 # Função: Editar categoria de gastos   
 def editar_categoria():
     try:
-        with open("categorias.txt", "r") as arquivo:
-                for linha in arquivo:
-                    print("As categorias existentes são: \n")
-                    print(linha)
-                    # print("O limite é " + linha.strip())
+        # with open("categorias.txt", "r") as arquivo:
+        #         for linha in arquivo:
+        #             print("As categorias existentes são: \n")
+        #             print(linha)
+        #             # print("O limite é " + linha.strip())
+        print('============================================================')
+        print("As categorias que você definiu anteriormente foram:")
+        for (categoria) in registrosGerais['categorias']:
+            index = registrosGerais['categorias'].index(categoria)
+            print(f"{index}.{categoria['nome']} com limite de {categoria['limite']} reais.")
+        print('============================================================')
+        categoriaEditar = int(input("Digite o número da categoria que deseja editar: "))
+        novoNome = input(f"Digite um novo nome para esta categoria: ")
+        novoLimite = float(input("Defina o novo limite de gastos para esta categoria: "))
+        registrosGerais['categorias'][categoriaEditar]['nome'] = novoNome
+        registrosGerais['categorias'][categoriaEditar]['limite'] = novoLimite
+        print('Categoria editada com sucesso.')
+        sleep(1)
+        continuar = input("Deseja continuar e criar mais categorias? Você pode responder com S para sim e N para não ;)\n").upper()
+        limparConsole()
+        while (continuar == 'S'):
+            limparConsole()
+            editar_categoria()
+        else:
+            menu_definir_categorias()
     except FileNotFoundError:
         print("Nenhum dado de gasto encontrado.")
         sleep(1)
         menu_definir_categorias()
-    categoria_a_editar = input("Digite o nome da categoria que deseja editar: ")
-    novo_nome = input("Digite o novo nome da categoria: ")
-    novo_limite = float(input("Defina o novo limite de gastos para esta categoria: "))
     print("Categoria editada com sucesso.")
+    limparConsole()
+
+def deletarCategoria():
+    print('============================================================')
+    print("As categorias que você definiu anteriormente foram:")
+    for (categoria) in registrosGerais['categorias']:
+        index = registrosGerais['categorias'].index(categoria)
+        print(f"{index}.{categoria['nome']} com limite de {categoria['limite']} reais.")
+    print('============================================================')
+    categoriaDeletar = int(input("Digite o número da categoria que deseja deletar: "))
+    registrosGerais['categorias'].pop(categoriaDeletar)
+    print("Categoria deletada com sucesso.")
+    limparConsole()
+
+def visualizarDados():
+    print('============================================================')
+    print(f"O seu orçamento mensal atualizado está no valor de {registrosGerais['orcamentoMensal']}.")
+    print("As categorias que você definiu foram:")
+    for (categoria) in registrosGerais['categorias']:
+        index = registrosGerais['categorias'].index(categoria)
+        print(f"{index}.{categoria['nome']} com limite de {categoria['limite']} reais.")
+    print('============================================================')    
+    voltar = int(input("Digite 1 para voltar ao menu das categorias de despesa ;)\n"))
+    if(voltar == 1):
+        menu_definir_categorias()
+    else:
+        print("Digite uma opção válida.")
     limparConsole()
