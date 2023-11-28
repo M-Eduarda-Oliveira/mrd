@@ -9,11 +9,11 @@ from services.relatorio import menu_relatorio_gastos
 from services.insights import menu_insights_financeiros
 
 inicio = input("Podemos Iniciar o Programa?\nDigite 'S' para Sim, ou 'N' para Não: ").upper()
-# limparConsole()
+limparConsole()
 
 # Menu Inicial
 while(inicio == "S"):
-    print("\nMenu Principal \n 1. Definir Categorias de Gastos e Limites \n 2. Inserir um Novo Gasto \n 3. Relatório de Gastos \n 4. Insights Financeiros \n 5. Sair \n 6. Exibir dados")
+    print("\nMenu Principal \n 1. Definir Categorias de Despesas e Limites \n 2. Inserir um Novo Gasto \n 3. Relatório de Gastos \n 4. Insights Financeiros \n 5. Sair \n 6. Exibir dados")
     escolha = input_valido("Escolha uma opção: ")
 
     if escolha == 1:
