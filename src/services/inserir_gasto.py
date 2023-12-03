@@ -6,7 +6,7 @@ from data.registros_categorias import registrosGerais
 
 # Menu da funcionalidade 02 - Funcionalidade: Inserir novo gasto
 def menu_inserir_gasto():
-    limparConsole()
+    limparConsole(0)
     while True:
         if (len(registrosGerais['categorias'])>0):
             print('============================================================')
@@ -16,28 +16,28 @@ def menu_inserir_gasto():
                 print(f"{index}.{categoria['nome']} com limite de {categoria['limite']} reais.")
             print('============================================================')
             categoriaGasto = int(input("Digite o número da categoria que deseja adicionar a despesa: "))
-            # for (categoria) in registrosGerais['categorias']:
-            #     index = registrosGerais['categorias'].index(categoria)
-            #     if (categoriaGasto in index):
-            valorGasto = float(input("Digite o valor do gasto para ser adicionado a categoria escolhida: "))
-            if (valorGasto < 1):
-                raise ValueError("O valor do gasto não pode ser negativo.")
-            else:
-                registrosGerais['categorias'][categoriaGasto]['gasto'] = valorGasto
+            if (categoriaGasto in range (len(registrosGerais['categorias']))):
+                valorGasto = float(input("Digite o valor do gasto para ser adicionado a categoria escolhida: ")) 
+                registrosGerais['categorias'][categoriaGasto]['gasto'] = float(registrosGerais['categorias'][categoriaGasto]['gasto']) + valorGasto
                 print("Categoria atualizada com valor gasto.")
+                print('============================================================')
+                limparConsole(2)
                 print('============================================================')
                 print("Agora suas categorias definidas estão atualizadas dessa forma:")
                 for (categoria) in registrosGerais['categorias']:
                     index = registrosGerais['categorias'].index(categoria)
                     print(f"{index}.{categoria['nome']} com limite de {categoria['limite']} reais. Você já gastou {categoria['gasto']} reais.")
                 print('============================================================')
-                sleep(2)
-                limparConsole()
-                break
+                limparConsole(3)
+                from menu_principal import menu_principal
+                menu_principal()
+            else:
+                print("Essa categoria não existe. Por favor verifique o número e tente novamento")  
+                limparConsole(1)
+                menu_inserir_gasto()
         else:
             print("Ainda não existem categorias criadas, por favor, volte ao menu e crie novas categorias.")
-            sleep(2)
-            limparConsole()
+            limparConsole(3)
             break
         # categorias = ler_categorias()
         # if not categorias:
