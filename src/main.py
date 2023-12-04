@@ -17,7 +17,7 @@ def menu_main():
         from data.registros_categorias import registrosGerais
         carregar_dicionario(registrosGerais)
         opcao = menu_principal()
-        if (opcao == 5 or opcao == 6): break
+        if (opcao == 5): break
 
     if(inicio == "N"):
         print('============================================================')

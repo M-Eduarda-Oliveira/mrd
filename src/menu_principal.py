@@ -10,7 +10,7 @@ import sys
 
 def menu_principal():
     limparConsole(1)
-    print("\nMenu Principal \n 1. Definir Categorias de Despesas e Limites \n 2. Inserir um Novo Gasto \n 3. Relatório de Gastos \n 4. Insights Financeiros \n 5. Sair \n 6. Exibir dados")
+    print("\nMenu Principal \n 1. Definir Categorias de Despesas e Limites \n 2. Inserir um Novo Gasto \n 3. Relatório de Gastos \n 4. Insights Financeiros \n 5. Sair")
     escolha = input_valido("Escolha uma opção: ")
 
     if escolha == 1:
@@ -30,10 +30,6 @@ def menu_principal():
         from data.registros_categorias import registrosGerais
         salvar_dicionario(registrosGerais)
         sys.exit()
-    elif escolha == 6:
-        limparConsole(1)
-        exibir_conteudo_arquivo()
-        return 6
     else:
         print("\n\033[31mDigite uma opção válida, tente novamente.\033[m")
         limparConsole(2)
