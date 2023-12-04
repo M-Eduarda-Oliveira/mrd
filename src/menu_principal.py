@@ -26,6 +26,9 @@ def menu_principal():
         limparConsole(1)
         menu_insights_financeiros()
     elif escolha == 5:
+        from data.salvar_dados import salvar_dicionario
+        from data.registros_categorias import registrosGerais
+        salvar_dicionario(registrosGerais)
         sys.exit()
     elif escolha == 6:
         limparConsole(1)

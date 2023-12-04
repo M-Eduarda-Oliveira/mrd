@@ -13,6 +13,9 @@ def menu_main():
     limparConsole(1)
     # Menu Inicial
     while(inicio == "S"):
+        from data.carregar_dados import carregar_dicionario
+        from data.registros_categorias import registrosGerais
+        carregar_dicionario(registrosGerais)
         opcao = menu_principal()
         if (opcao == 5 or opcao == 6): break
 

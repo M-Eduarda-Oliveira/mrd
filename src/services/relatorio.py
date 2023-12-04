@@ -33,19 +33,8 @@ def relatorio_geral():
     limparConsole(4)
     menu_relatorio_gastos()
 
-    # try:
-    #     with open("dados_financeiros.txt", "r") as arquivo:
-    #         for linha in arquivo:
-    #             print(linha.strip())
-    #             with open("categorias.txt", "r") as arquivo:
-    #                     for linha in arquivo:
-    #                         print("O limite é " + linha.strip())
-    # except FileNotFoundError:
-    #     print("Nenhum dado de gasto encontrado.")
-
 # Função: Exibir relatório de gastos a partir da categoria selecionada
 def relatorio_por_categoria():
-    # categoria_especifica = input("Digite a categoria para a qual deseja o relatório: ")
     from data.registros_categorias import registrosGerais
     print('============================================================')
     for (categoria) in registrosGerais['categorias']:
@@ -54,10 +43,3 @@ def relatorio_por_categoria():
     print('============================================================')
     limparConsole(4)
     menu_relatorio_gastos()
-    # try:
-    #     with open("dados_financeiros.txt", "r") as arquivo:
-    #         for linha in arquivo:
-    #             if categoria_especifica in linha:
-    #                 print(linha.strip())
-    # except FileNotFoundError:
-    #     print("Nenhum dado de gasto encontrado.")

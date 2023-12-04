@@ -51,14 +51,9 @@ def definir_orcamento():
 # Função: Editar orçamento mensal total 
 def editar_orcamento():
     try:
-        # with open("orçamento.txt", "r") as arquivo:
-        #     orcamento_atual = arquivo.read()
-        # print(f"Orçamento atual: {orcamento_atual} ")
         layoutMensagem(f"O seu orçamento anterior estava definido no valor de {registrosGerais['orcamentoMensal']}")
         novo_orcamento = float(input("Digite o novo valor do orçamento: "))
         registrosGerais['orcamentoMensal'] = novo_orcamento
-        # with open("orçamento.txt", "w") as arquivo:
-        #     arquivo.write(str(novo_orcamento))
         print("Orçamento atualizado com sucesso.")
         limparConsole(2)
         menu_definir_categorias()
@@ -77,10 +72,6 @@ def criar_categoria():
     nova_categoria = input("Digite o nome da nova categoria de despesa que você deseja criar: ")
     limite = float(input("Defina um limite para gastos com esta categoria: "))
     gasto = 0
-    # with open("categorias.txt", "a") as arquivo:
-    #     arquivo.write(f"{nova_categoria}: {limite}\n")
-
-    # pode ser feito com array ou abjeto 
     registrosGerais['categorias'].append({'nome':nova_categoria, 'limite': limite, 'gasto': gasto})
     print("Categoria criada com sucesso.")
     limparConsole(2)
@@ -100,11 +91,6 @@ def criar_categoria():
 # Função: Editar categoria de gastos   
 def editar_categoria():
     try:
-        # with open("categorias.txt", "r") as arquivo:
-        #         for linha in arquivo:
-        #             print("As categorias existentes são: \n")
-        #             print(linha)
-        #             # print("O limite é " + linha.strip())
         print('============================================================')
         print("As categorias que você definiu anteriormente foram:")
         for (categoria) in registrosGerais['categorias']:
